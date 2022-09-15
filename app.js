@@ -2,7 +2,8 @@
 // import { getRandomItem } from './utils.js';
 
 /* State */
-const gameState = 'guess';
+let gameState = 'guess';
+let guess = 'guess-3';
 
 /* Actions */
 function loadPage() {
@@ -11,7 +12,7 @@ function loadPage() {
 
 /* Components */
 /* Component */
-let guess = 'guess-3';
+
 // get DOM
 const shellOne = document.getElementById('shell-1');
 const shellTwo = document.getElementById('shell-2');
@@ -43,16 +44,33 @@ function displayShells() {
 // event listeners
 
 guessOne.addEventListener('click', () => {
-    guess = 'guess-1';
-    console.log('hi');
+    makePlay('shell-1');
 });
 guessTwo.addEventListener('click', () => {
-    guess = 'guess-2';
+    makePlay('shell-2');
 });
 guessThree.addEventListener('click', () => {
-    guess = 'guess-3';
+    makePlay('shell-3');
 });
 
 /* Run page load code */
 loadPage();
 displayShells();
+
+function makePlay(playerChoice) {
+    gameState = 'results';
+    guess = playerChoice;
+    displayChoice();
+}
+
+function displayChoice() {
+    if (gameState === 'results') {
+        if (guess === 'shell-1') {
+            shellOne.classList.add('reveal');
+        } else if (guess === 'shell-2') {
+            shellTwo.classList.add('reveal');
+        } else if (guess === 'shell-3') {
+            shellThree.classList.add('reveal');
+        }
+    }
+}
