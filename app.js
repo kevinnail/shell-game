@@ -1,9 +1,11 @@
 /* Imports */
-// import { getRandomItem } from './utils.js';
+import { getRandomItem } from './utils.js';
 
 /* State */
 let gameState = 'guess';
 let guess = 'guess-3';
+let comChoiceArray = ['guess-1', 'guess-2', 'guess-3'];
+let comChoice = getRandomItem(comChoiceArray);
 
 /* Actions */
 function loadPage() {
@@ -60,7 +62,10 @@ displayShells();
 function makePlay(playerChoice) {
     gameState = 'results';
     guess = playerChoice;
+    comChoice = getRandomItem(comChoiceArray);
+    console.log(comChoice);
     displayChoice();
+    displayComChoice();
 }
 
 function displayChoice() {
@@ -71,6 +76,21 @@ function displayChoice() {
             shellTwo.classList.add('reveal');
         } else if (guess === 'shell-3') {
             shellThree.classList.add('reveal');
+        }
+    }
+}
+
+function displayComChoice() {
+    if (gameState === 'results') {
+        if (comChoice === 'guess-1') {
+            shellOne.classList.add('reveal');
+            pearlOne.classList.remove('hidden');
+        } else if (comChoice === 'guess-2') {
+            shellTwo.classList.add('reveal');
+            pearlTwo.classList.remove('hidden');
+        } else if (comChoice === 'guess-3') {
+            shellThree.classList.add('reveal');
+            pearlThree.classList.remove('hidden');
         }
     }
 }

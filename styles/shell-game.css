@@ -4,10 +4,6 @@
     margin-right: 10px;
 }
 
-.hidden {
-    display: none !important;
-}
-
 section {
     margin-bottom: 30px;
     text-align: center;
@@ -71,4 +67,7 @@ button {
 .results p {
     font-size: 1.1em;
     font-weight: bold;
+}
+.hidden {
+    display: none !important;
 }
