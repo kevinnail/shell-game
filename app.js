@@ -4,8 +4,10 @@ import { getRandomItem } from './utils.js';
 /* State */
 let gameState = 'guess';
 let guess = 'guess-3';
-let comChoiceArray = ['guess-1', 'guess-2', 'guess-3'];
+let comChoiceArray = ['shell-1', 'shell-2', 'shell-3'];
 let comChoice = getRandomItem(comChoiceArray);
+let playerWins = 0;
+let playerLosses = 0;
 
 /* Actions */
 function loadPage() {
@@ -32,8 +34,13 @@ const guessThree = document.getElementById('guess-3');
 const winsDisplay = document.getElementById('wins-display');
 const lossDisplay = document.getElementById('losses-display');
 const totalDisplay = document.getElementById('total-display');
+const displayOne = document.getElementById('display-1');
+const displayTwo = document.getElementById('display-2');
+const displayThree = document.getElementById('display-3');
+
 // display
 function displayShells() {
+    gameState = 'guess';
     shellOne.classList.remove('reveal');
     shellTwo.classList.remove('reveal');
     shellThree.classList.remove('reveal');
@@ -42,7 +49,11 @@ function displayShells() {
     pearlThree.classList.add('hidden');
     resultDiv.classList.add('hidden');
     guessDiv.classList.remove('hidden');
+    displayOne.textContent = '';
+    displayTwo.textContent = '';
+    displayThree.textContent = '';
 }
+
 // event listeners
 
 guessOne.addEventListener('click', () => {
@@ -69,6 +80,8 @@ function makePlay(playerChoice) {
     comChoice = getRandomItem(comChoiceArray);
     displayChoice();
     displayComChoice();
+    checkWinner(guess, comChoice);
+    displayScoreboard();
 }
 
 function displayChoice() {
@@ -87,15 +100,60 @@ function displayChoice() {
 
 function displayComChoice() {
     if (gameState === 'results') {
-        if (comChoice === 'guess-1') {
+        if (comChoice === 'shell-1') {
             shellOne.classList.add('reveal');
             pearlOne.classList.remove('hidden');
-        } else if (comChoice === 'guess-2') {
+        } else if (comChoice === 'shell-2') {
             shellTwo.classList.add('reveal');
             pearlTwo.classList.remove('hidden');
-        } else if (comChoice === 'guess-3') {
+        } else if (comChoice === 'shell-3') {
             shellThree.classList.add('reveal');
             pearlThree.classList.remove('hidden');
         }
+    }
+}
+
+function checkWinner(playerChoice, comChoice) {
+    resultDiv.classList.remove('hidden');
+    switch (playerChoice) {
+        case 'shell-1':
+            if (comChoice === playerChoice) {
+                displayOne.textContent = 'Found it!';
+                playerWins++;
+            } else {
+                displayOne.textContent = 'Not here!!';
+                playerLosses++;
+            }
+            break;
+        case 'shell-2':
+            if (comChoice === playerChoice) {
+                displayTwo.textContent = 'Found it!';
+                playerWins++;
+            } else {
+                displayTwo.textContent = 'Not here!!';
+                playerLosses++;
+            }
+            break;
+        case 'shell-3':
+            if (comChoice === playerChoice) {
+                displayOne.textContent = 'Found it!';
+                playerWins++;
+            } else {
+                displayOne.textContent = 'Not here!!';
+                playerLosses++;
+            }
+            break;
+    }
+}
+
+function displayScoreboard() {
+    if (gameState === 'guess') {
+        winsDisplay.textContent = 0;
+        lossDisplay.textContent = 0;
+        totalDisplay.textContent = 0;
+    } else {
+        winsDisplay.textContent = playerWins;
+        lossDisplay.textContent = playerLosses;
+        totalDisplay.textContent = playerWins + playerLosses;
     }
 }
