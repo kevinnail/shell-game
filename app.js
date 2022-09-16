@@ -3,9 +3,13 @@ import { getRandomItem } from './utils.js';
 
 /* State */
 let gameState = 'guess';
-let guess = 'guess-3';
+let guess = '';
+
+// computer shell choice
 let comChoiceArray = ['shell-1', 'shell-2', 'shell-3'];
 let comChoice = getRandomItem(comChoiceArray);
+
+// scoreboard
 let playerWins = 0;
 let playerLosses = 0;
 
@@ -14,10 +18,20 @@ function loadPage() {
     displayShells();
 }
 
+function makePlay(playerChoice) {
+    gameState = 'results';
+    guess = playerChoice;
+    comChoice = getRandomItem(comChoiceArray);
+    displayChoice();
+    displayComChoice();
+    checkWinner(guess, comChoice);
+    displayScoreboard();
+}
 /* Components */
 /* Component */
 
 // get DOM
+// shells and pearls
 const shellOne = document.getElementById('shell-1');
 const shellTwo = document.getElementById('shell-2');
 const shellThree = document.getElementById('shell-3');
@@ -25,15 +39,22 @@ const pearlOne = document.getElementById('pearl-1');
 const pearlTwo = document.getElementById('pearl-2');
 const pearlThree = document.getElementById('pearl-3');
 
+// guesses and result display elements
 const guessDiv = document.getElementById('guesses');
 const resultDiv = document.getElementById('results');
+
+// buttons
 const playAgainBtn = document.getElementById('play-again-button');
 const guessOne = document.getElementById('guess-1');
 const guessTwo = document.getElementById('guess-2');
 const guessThree = document.getElementById('guess-3');
+
+// scoreboard
 const winsDisplay = document.getElementById('wins-display');
 const lossDisplay = document.getElementById('losses-display');
 const totalDisplay = document.getElementById('total-display');
+
+// "You found it"/ "Not here" message to player
 const displayOne = document.getElementById('display-1');
 const displayTwo = document.getElementById('display-2');
 const displayThree = document.getElementById('display-3');
@@ -52,36 +73,6 @@ function displayShells() {
     displayOne.textContent = '';
     displayTwo.textContent = '';
     displayThree.textContent = '';
-}
-
-// event listeners
-
-guessOne.addEventListener('click', () => {
-    makePlay('shell-1');
-});
-guessTwo.addEventListener('click', () => {
-    makePlay('shell-2');
-});
-guessThree.addEventListener('click', () => {
-    makePlay('shell-3');
-});
-
-playAgainBtn.addEventListener('click', () => {
-    displayShells();
-});
-
-/* Run page load code */
-loadPage();
-displayShells();
-
-function makePlay(playerChoice) {
-    gameState = 'results';
-    guess = playerChoice;
-    comChoice = getRandomItem(comChoiceArray);
-    displayChoice();
-    displayComChoice();
-    checkWinner(guess, comChoice);
-    displayScoreboard();
 }
 
 function displayChoice() {
@@ -136,10 +127,10 @@ function checkWinner(playerChoice, comChoice) {
             break;
         case 'shell-3':
             if (comChoice === playerChoice) {
-                displayOne.textContent = 'Found it!';
+                displayThree.textContent = 'Found it!';
                 playerWins++;
             } else {
-                displayOne.textContent = 'Not here!!';
+                displayThree.textContent = 'Not here!!';
                 playerLosses++;
             }
             break;
@@ -157,3 +148,23 @@ function displayScoreboard() {
         totalDisplay.textContent = playerWins + playerLosses;
     }
 }
+
+// event listeners
+
+guessOne.addEventListener('click', () => {
+    makePlay('shell-1');
+});
+guessTwo.addEventListener('click', () => {
+    makePlay('shell-2');
+});
+guessThree.addEventListener('click', () => {
+    makePlay('shell-3');
+});
+
+playAgainBtn.addEventListener('click', () => {
+    displayShells();
+});
+
+/* Run page load code */
+loadPage();
+displayShells();
